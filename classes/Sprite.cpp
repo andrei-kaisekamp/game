@@ -99,7 +99,7 @@ void Sprite::drawSprite()
 	// Matriz de modelo - Tranformações na geometria, nos objetos
 	mat4 model = mat4(1); // matriz identidade
 	model = translate(model, this->position);
-	model = rotate(model, radians(this->angle), vec3(0.0, 0.0, 1.0));
+	model = rotate(model, this->angle, vec3(0.0, 0.0, 1.0));
 
 
 	// Condição para espelhar o sprite no eixo X

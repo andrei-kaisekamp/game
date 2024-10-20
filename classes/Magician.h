@@ -12,6 +12,9 @@ public:
     void drawSprite() override;
     void idle();
     bool isJumping;
+
+    float getPosX() {return this->position.x;};
+    float getPosY() {return this->position.y;};
 private:
     bool firstJumpLoop;
     float jumpSpeed;

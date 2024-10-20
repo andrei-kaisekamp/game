@@ -6,8 +6,7 @@
 #include <GameEngine.h>
 
 
-int main()
-{
+int main() {
 	GameEngine *engine = new GameEngine;
     engine->initialize();
 	engine->run();

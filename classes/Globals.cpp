@@ -4,6 +4,8 @@
 const GLuint WIDTH = 960;
 const GLuint HEIGHT = 540;
 const float groundLevel = 153.0;
+double mouseX = 0.0;
+double mouseY = 0.0;
 
 //sprites:
 mat4 projection = ortho(0.0f, (static_cast<float>(WIDTH)), 0.0f, (static_cast<float>(HEIGHT)), -1.0f, 1.0f);

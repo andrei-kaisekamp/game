@@ -25,6 +25,8 @@ using namespace std;
 extern const GLuint WIDTH;
 extern const GLuint HEIGHT;
 extern const float groundLevel;
+extern double mouseX;
+extern double mouseY;
 
 //sprites:
 extern mat4 projection;
