@@ -3,9 +3,14 @@
 //tela:
 const GLuint WIDTH = 960;
 const GLuint HEIGHT = 540;
+const float groundLevel = 153.0;
 
 //sprites:
 mat4 projection = ortho(0.0f, (static_cast<float>(WIDTH)), 0.0f, (static_cast<float>(HEIGHT)), -1.0f, 1.0f);
+float defaultSpeed = 1.0f;
+float defaultGravity = 0.7f;
+float parallaxStrength = 1.0f;
+float skySpeed = 0.2f;
 
 //shaders:
 const GLchar *vertexShaderSource = 
@@ -31,3 +36,6 @@ const GLchar *fragmentShaderSource =
 	"{\n"
 	"color = texture(texBuffer, texCoord + offsetTex);\n"
 	"}\n\0";
+
+//keys
+bool keys[1024] = {false};

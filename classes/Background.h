@@ -5,7 +5,14 @@
 
 class Background : public Sprite {
 public:
-    Background(string filePath);
+    Background();
+    Background(string filePath, float layer);
+    void drawSprite() override;
+    void moveRight();
+    void moveLeft();
+    void moveSky();
+private:
+    float layer;
 };
 
 

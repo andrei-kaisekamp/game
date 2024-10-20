@@ -8,10 +8,15 @@ public:
     Magician(string filePath);
     void moveLeft();
     void moveRight();
+    void jump();
     void drawSprite() override;
+    void idle();
+    bool isJumping;
 private:
-    const int speed = 5;
+    bool firstJumpLoop;
+    float jumpSpeed;
     void updateFrame();
+    void moving();
 };
 
 

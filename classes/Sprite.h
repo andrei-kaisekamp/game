@@ -27,6 +27,8 @@ public:
     virtual void loadTexture(string filePath, int &imgWidth, int &imgHeight);
     virtual void drawSprite();
     void setupShader();
+
+	bool isFacingRight;
 };
 
 #endif

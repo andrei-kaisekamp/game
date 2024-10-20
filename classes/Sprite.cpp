@@ -12,17 +12,15 @@ Sprite::Sprite(string filePath) {
 void Sprite::setupSprite(vec3 position, vec3 dimensions, int nFrames, int nAnimations)
 {
 	this->dimensions = dimensions;
-	this->position = position;
-	this->frames = nFrames;
-	frameID = 0;
+	this->position   = position;
+	this->frames     = nFrames;
+	this->FPS        = 12.0;
+	this->lastTime   = 0.0;
+	this->frameID    = 0;
 
     glUseProgram(this->shader);
 
 	float widthLimit = 1.0 / (float)frames;
-	// Aqui setamos as coordenadas x, y e z do triângulo e as armazenamos de forma
-	// sequencial, já visando mandar para o VBO (Vertex Buffer Objects)
-	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
-	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
 		// x     y    z    s     	   t
 		-0.5, -0.5, 0.0, 0.0,        0.0,  // V0
@@ -33,25 +31,11 @@ void Sprite::setupSprite(vec3 position, vec3 dimensions, int nFrames, int nAnima
 	};
 
 	GLuint VBO, VAO;
-	// Geração do identificador do VBO
 	glGenBuffers(1, &VBO);
-	// Faz a conexão (vincula) do buffer como um buffer de array
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	// Envia os dados do array de floats para o buffer da OpenGl
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// Geração do identificador do VAO (Vertex Array Object)
 	glGenVertexArrays(1, &VAO);
-	// Vincula (bind) o VAO primeiro, e em seguida  conecta e seta o(s) buffer(s) de vértices
-	// e os ponteiros para os atributos
 	glBindVertexArray(VAO);
-	// Para cada atributo do vertice, criamos um "AttribPointer" (ponteiro para o atributo), indicando:
-	//  Localização no shader * (a localização dos atributos devem ser correspondentes no layout especificado no vertex shader)
-	//  Numero de valores que o atributo tem (por ex, 3 coordenadas xyz)
-	//  Tipo do dado
-	//  Se está normalizado (entre zero e um)
-	//  Tamanho em bytes
-	//  Deslocamento a partir do byte zero
 
 	// Atributo 0 - Posição - x, y, z
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *)0);
@@ -60,16 +44,10 @@ void Sprite::setupSprite(vec3 position, vec3 dimensions, int nFrames, int nAnima
 	// Atributo 1 - Coordenadas de textura - s, t
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
-
-	// Observe que isso é permitido, a chamada para glVertexAttribPointer registrou o VBO como o objeto de buffer de vértice
-	// atualmente vinculado - para que depois possamos desvincular com segurança
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Desvincula o VAO (é uma boa prática desvincular qualquer buffer ou array para evitar bugs medonhos)
 	glBindVertexArray(0);
+
 	this->VAO = VAO;
-	FPS = 12.0;
-	lastTime = 0.0;
 }
 
 void Sprite::loadTexture(string filePath, int &imgWidth, int &imgHeight)
@@ -115,26 +93,28 @@ void Sprite::loadTexture(string filePath, int &imgWidth, int &imgHeight)
 void Sprite::drawSprite()
 {
     glUseProgram(this->shader);
-	glBindVertexArray(this->VAO); // Conectando ao buffer de geometria
-
-	glBindTexture(GL_TEXTURE_2D, this->texture); // conectando o buffer de textura
+	glBindVertexArray(this->VAO);
+	glBindTexture(GL_TEXTURE_2D, this->texture);
 
 	// Matriz de modelo - Tranformações na geometria, nos objetos
 	mat4 model = mat4(1); // matriz identidade
-	// Translação
 	model = translate(model, this->position);
-	// Rotação
 	model = rotate(model, radians(this->angle), vec3(0.0, 0.0, 1.0));
-	// Escala
-	model = scale(model, this->dimensions);
-	// Enviar para o shader
+
+
+	// Condição para espelhar o sprite no eixo X
+    vec3 scaleFactors = this->dimensions;
+    if (!isFacingRight) {
+        // Espelhar horizontalmente, aplicando escala negativa no eixo X
+        scaleFactors.x *= -1.0f;
+    }
+    
+    // Aplicar a escala com os valores ajustados
+    model = scale(model, scaleFactors);
+
 	glUniformMatrix4fv(glGetUniformLocation(this->shader, "model"), 1, GL_FALSE, value_ptr(model));
-
-	// Chamada de desenho - drawcall
-	// Poligono Preenchido - GL_TRIANGLES
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glBindVertexArray(0); // Desconectando o buffer de geometria
+	glBindVertexArray(0);
 }
 
 void Sprite::setupShader() {

@@ -24,12 +24,19 @@ using namespace std;
 //tela:
 extern const GLuint WIDTH;
 extern const GLuint HEIGHT;
+extern const float groundLevel;
 
 //sprites:
 extern mat4 projection;
+extern float defaultSpeed;
+extern float defaultGravity;
+extern float skySpeed;
 
 //shaders:
 extern const GLchar *vertexShaderSource;
 extern const GLchar *fragmentShaderSource;
+
+//keys
+extern bool keys[1024];
 
 #endif

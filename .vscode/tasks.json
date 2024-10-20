@@ -7,13 +7,16 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                //"${file}",
+                "${workspaceFolder}/Source.cpp",
                 "${workspaceFolder}/Dependencies/glad/src/glad.c",
                 "${workspaceFolder}/Dependencies/stb_image/stb_image.cpp",
                 "${workspaceFolder}/classes/Globals.cpp",
                 "${workspaceFolder}/classes/Sprite.cpp",
                 "${workspaceFolder}/classes/Background.cpp",
                 "${workspaceFolder}/classes/Magician.cpp",
+                "${workspaceFolder}/classes/GameEngine.cpp",
+                "${workspaceFolder}/classes/BackgroundManager.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${workspaceFolder}/Dependencies/stb_image",
@@ -21,11 +24,11 @@
                 "-I${workspaceFolder}/classes",
                 "-I${workspaceFolder}/Dependencies/glm",  
                 "-I${workspaceFolder}/Dependencies/glfw-3.4.bin.WIN64/include",
-                "-L${workspaceFolder}/Dependencies/glfw-3.4.bin.WIN64/lib-mingw-w64",  // Link para a lib do GLFW
-                "-lglfw3",  // Biblioteca GLFW
-                "-lopengl32",  // OpenGL
-                "-lgdi32",  // Necessário para sistemas Windows com GLFW
-                "-L${workspaceFolder}/Dependencies/glad/src",  // Se houver lib para GLAD, adicione aqui
+                "-L${workspaceFolder}/Dependencies/glfw-3.4.bin.WIN64/lib-mingw-w64",
+                "-lglfw3",
+                "-lopengl32",
+                "-lgdi32", 
+                "-L${workspaceFolder}/Dependencies/glad/src",  
             ],
             "options": {
                 "cwd": "${fileDirname}"
