@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Magician.h"
 #include <vector>
 #include <cmath>
 
@@ -9,7 +10,7 @@
 
 class Projectile : public Sprite {
 public:
-    Projectile(float initialPosX, float initialPosY, float targetPosX, float targetPosY, vector <GLuint> textures);
+    Projectile(float targetPosX, float targetPosY, vector <GLuint> textures, Magician *magician);
     void drawSprite() override;
     void move();
     bool isOutOfRange;
@@ -21,6 +22,7 @@ private:
 
     float initialPosX, initialPosY, targetPosX, targetPosY, directionX, directionY;
     float defaultSpeed, xSpeed, ySpeed;
+    Magician *magician;
 };
 
 

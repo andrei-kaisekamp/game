@@ -1,28 +1,28 @@
 #include "Projectile.h"
 
-Projectile::Projectile(float initialPosX, float initialPosY, float targetPosX, float targetPosY, vector <GLuint> textures){
+Projectile::Projectile(float targetPosX, float targetPosY, vector <GLuint> textures, Magician *magician){
+    this->magician = magician;
+    this->defaultSpeed = 10.0f;
+    this->targetPosX = targetPosX;
+    this->targetPosY = HEIGHT - targetPosY;      //Mouse Y is backwards
+    this->initialPosX = this->magician->getPosX() - 10.0;
+    this->initialPosY = this->magician->getPosY() - 20.0;
+
+    this->isFacingRight = true; //Not used because we use angle
+    this->isOutOfRange = false;
+    this->FPS = 30.0;
+    this->textures = textures;
+
     setupShader();
     setTexture(textures[0]);
 
     setupSprite(
-        vec3((initialPosX - 10), (initialPosY - 20), 1.0), //position
+        vec3((this->initialPosX - 10), (this->initialPosY - 20), 1.0), //position
         vec3(1666/8, 1070/8, 1.0f),    //dimension
         1, 1                           //frames and animation
     );
 
-    this->defaultSpeed = 10.0f;
-    this->targetPosX = targetPosX;
-    //Mouse Y is backwards
-    this->targetPosY = HEIGHT - targetPosY;
-    this->initialPosX = initialPosX - 10.0;
-    this->initialPosY = initialPosY - 20.0;
-
     calculateDirections();
-
-    this->isFacingRight = true;
-    this->isOutOfRange = false;
-    this->FPS = 30.0;
-    this->textures = textures;
 }
 
 void Projectile::setTexture(GLuint texture) {
@@ -45,16 +45,34 @@ void Projectile::calculateDirections() {
     //this->angle = angleRadians * 180.0f / M_PI;
 
     // Definir a velocidade com base no vetor direção e na velocidade desejada
-    xSpeed = directionX * defaultSpeed;
-    ySpeed = (directionY * defaultSpeed);
+    xSpeed = directionX * defaultSpeed*2;
+    ySpeed = (directionY * defaultSpeed*2);
 }
 
 void Projectile::move() {
+
+    float lastPositionX = this->position.x;
+    float lastPositionY = this->position.y;
+
     this->position.x += xSpeed;
     this->position.y += ySpeed;
 
+    ySpeed -= defaultGravity / 2;
+
+    float difPositionX = this->position.x - lastPositionX;
+    float difPositionY = this->position.y - lastPositionY;
+    
+    this->angle = atan2(difPositionY, difPositionX);
+
+    if(characterIsMoving){
+        if(magician->isFacingRight)
+            position.x -= 1 + (static_cast<float>(7)/2);
+        else
+            position.x += 1 + (static_cast<float>(7)/2);
+    }
+
     if(this->position.x >= 960.0 || this->position.x <= 0.0 ||
-       this->position.y >= 540.0 || this->position.y <= groundLevel - 65.0 )
+       this->position.y <= groundLevel - 65.0 )
         this->isOutOfRange = true;
 }
 

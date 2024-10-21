@@ -33,6 +33,7 @@ extern mat4 projection;
 extern float defaultSpeed;
 extern float defaultGravity;
 extern float skySpeed;
+extern bool characterIsMoving;
 
 //shaders:
 extern const GLchar *vertexShaderSource;

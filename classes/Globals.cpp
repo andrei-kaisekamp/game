@@ -13,6 +13,7 @@ float defaultSpeed = 1.0f;
 float defaultGravity = 0.7f;
 float parallaxStrength = 1.0f;
 float skySpeed = 0.2f;
+bool characterIsMoving = false;
 
 //shaders:
 const GLchar *vertexShaderSource = 

@@ -5,6 +5,7 @@
 
 class Magician : public Sprite {
 public:
+    Magician();
     Magician(string filePath);
     void moveLeft();
     void moveRight();

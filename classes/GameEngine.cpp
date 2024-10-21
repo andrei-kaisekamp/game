@@ -31,15 +31,18 @@ void GameEngine::run() {
 			magician->idle();
 
 		background->moveSky();
+		characterIsMoving = false;
 
 		if (keys[GLFW_KEY_LEFT] || keys[GLFW_KEY_A]) {
 			background->moveBackgroundLeft();
 			magician->moveLeft();
+			characterIsMoving = true;
 		}
 
 		if (keys[GLFW_KEY_RIGHT] || keys[GLFW_KEY_D]) {
 			background->moveBackgroundRight();
 			magician->moveRight();
+			characterIsMoving = true;
 		}
 
 		if (keys[GLFW_KEY_UP] || keys[GLFW_KEY_W]) {
@@ -52,7 +55,7 @@ void GameEngine::run() {
 
 		if(this->mouseClicked){
 			if(projectile == nullptr)
-				projectile = new Projectile(magician->getPosX(), (magician->getPosY()), mouseClickX, mouseClickY, this->projectileTextureContainer);
+				projectile = new Projectile(mouseClickX, mouseClickY, this->projectileTextureContainer, magician);
 		}
 
 		background->drawSprite();
