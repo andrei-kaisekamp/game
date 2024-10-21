@@ -2,6 +2,7 @@
 #define GAME_ENGINE_H
 
 #include "Globals.h"
+#include "TextureLoader.h"
 #include <vector>
 
 class GameEngine{
@@ -12,17 +13,27 @@ public:
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
     //vector projectiles
 private:
-  GLFWwindow *window;
-  void initializeGL();
-  static double mouseClickX;
-  static double mouseClickY;
-  static bool mouseClicked;
+    GLFWwindow *window;
+    void initializeGL();
+    void createWindow();
+    void setCallback();
+    void loadGLAD();
+    void createViewPort();
+    void configureOpenGLBuffers();
+    void loadTextures();
+    //void loadProjectileTextures();
+    //void loadExplosionTextures();
 
-  vector <GLuint> projectileTextureContainer;
-  vector <GLuint> explosionTextureContainer;
-  void loadProjectileTextures();
-  void loadExplosionTextures();
-  GLuint loadTexture(string filePath, int &imgWidth, int &imgHeight);
+    static double mouseClickX;
+    static double mouseClickY;
+    static bool mouseClicked;
+
+    TextureLoader *textureLoader;
+
+    //vector <GLuint> projectileTextureContainer;
+    //vector <GLuint> explosionTextureContainer;
+    
+    GLuint loadTexture(string filePath, int &imgWidth, int &imgHeight);
 
 };
 #endif

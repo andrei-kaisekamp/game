@@ -1,17 +1,16 @@
 #include "Magician.h"
 
-Magician::Magician(string filePath){
-    int imgWidth, imgHeight;
+Magician::Magician(Texture textures){
     setupShader();
-    loadTexture(filePath, imgWidth, imgHeight);
     setupSprite(
         vec3((static_cast<float>(WIDTH)/2), groundLevel, 0.0), 
-        vec3(imgWidth*1.5 / 8.0, imgHeight*1.5, 1.0), 8, 1
+        vec3(textures.width*1.5 / 8.0, textures.height*1.5, 1.0), 8, 1
     );
     this->isFacingRight = true;
     this->isJumping = false;
     this->firstJumpLoop = true;
     this->jumpSpeed = 15.0;
+    this->textures = textures;
 }
 
 void Magician::moveLeft(){
@@ -44,18 +43,21 @@ void Magician::drawSprite(){
 }
 
 void Magician::idle() {
-    int imgWidth, imgHeight;
-    loadTexture("textures/characters/magican/Idle.png", imgWidth, imgHeight);
+    //int imgWidth, imgHeight;
+    //loadTexture("textures/characters/magican/Idle.png", imgWidth, imgHeight);
+    this->texture = textures.textures[0];
 }
 
 void Magician::moving() {
-    int imgWidth, imgHeight;
-    loadTexture("textures/characters/magican/Run.png", imgWidth, imgHeight);
+    //int imgWidth, imgHeight;
+    //loadTexture("textures/characters/magican/Run.png", imgWidth, imgHeight);
+    this->texture = textures.textures[1];
 }
 
 void Magician::jump() {
-    int imgWidth, imgHeight;
-    loadTexture("textures/characters/magican/Jump.png", imgWidth, imgHeight);
+    //int imgWidth, imgHeight;
+    //loadTexture("textures/characters/magican/Jump.png", imgWidth, imgHeight);
+    this->texture = textures.textures[2];
 
     this->position.y += jumpSpeed; 
     jumpSpeed -= defaultGravity;
@@ -75,5 +77,4 @@ void Magician::jump() {
 		glUseProgram(this->shader);
 		this->idle();
     }
-}
-;
+};

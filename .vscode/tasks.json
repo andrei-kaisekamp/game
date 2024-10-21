@@ -19,6 +19,7 @@
                 "${workspaceFolder}/classes/BackgroundManager.cpp",
                 "${workspaceFolder}/classes/Projectile.cpp",
                 "${workspaceFolder}/classes/Explosion.cpp",
+                "${workspaceFolder}/classes/TextureLoader.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${workspaceFolder}/Dependencies/stb_image",

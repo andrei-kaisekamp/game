@@ -6,7 +6,7 @@
 class Background : public Sprite {
 public:
     Background();
-    Background(string filePath, float layer);
+    Background(GLuint texture, int width, int height, float layer);
     void drawSprite() override;
     void moveRight();
     void moveLeft();

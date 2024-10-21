@@ -1,11 +1,8 @@
 #include "Background.h"
 
 Background::Background() {};
-Background::Background(string filePath, float layer){
-    int imgWidth, imgHeight;
+Background::Background(GLuint texture, int width, int height, float layer){
     setupShader();
-    loadTexture(filePath, imgWidth, imgHeight);
-
     setupSprite(
         vec3(
             (static_cast<float>(WIDTH)/2),     
@@ -13,12 +10,13 @@ Background::Background(string filePath, float layer){
             1.0
         ), 
         vec3(
-            static_cast<float>(imgWidth*2)*WIDTH/imgWidth, 
-            static_cast<float>(imgHeight)*HEIGHT/imgHeight, 
+            static_cast<float>(width*2)*WIDTH/width, 
+            static_cast<float>(height)*HEIGHT/height, 
             1.0f), 1, 1
     );
     this->layer = layer;
     this->isFacingRight = true;
+    this->texture = texture;
 }
 
 void Background::moveLeft() {
@@ -45,6 +43,5 @@ void Background::moveSky() {
 
 
 void Background::drawSprite() {
-    //updateFrame();
     Sprite::drawSprite();
 };

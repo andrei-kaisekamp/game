@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
+#include <vector>
 // GLAD
 #include <glad/glad.h>
 // GLFW
@@ -41,5 +42,11 @@ extern const GLchar *fragmentShaderSource;
 
 //keys
 extern bool keys[1024];
+
+struct Texture
+{
+	vector <GLuint> textures;
+    int width, height;
+};
 
 #endif

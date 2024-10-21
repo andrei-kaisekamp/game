@@ -6,7 +6,7 @@
 
 class BackgroundManager{
 public:
-    BackgroundManager();
+    BackgroundManager(Texture textures);
     void moveBackgroundLeft();
     void moveBackgroundRight();
     void moveSky();

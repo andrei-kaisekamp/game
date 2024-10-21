@@ -13,18 +13,60 @@ double GameEngine::mouseClickY = 0.0;
   
 
 void GameEngine::initialize() {
-    initializeGL();
-	loadProjectileTextures();
-	loadExplosionTextures();
+	initializeGL();
+	loadTextures();
+}
+
+void GameEngine::loadTextures() {
+	textureLoader = new TextureLoader();
+	textureLoader->loadTextures();
+}
+
+void GameEngine::createWindow() {
+	glfwInit();
+    window = glfwCreateWindow(WIDTH, HEIGHT, "JOGO FODA AG", nullptr, nullptr);
+	glfwMakeContextCurrent(window);
+}
+
+void GameEngine::setCallback() {
+	glfwSetKeyCallback(window, key_callback);
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
+}
+
+void GameEngine::createViewPort() {
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
+}
+
+void GameEngine::loadGLAD() {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		std::cout << "Failed to initialize GLAD" << std::endl;
+}
+
+void GameEngine::configureOpenGLBuffers() {
+	glActiveTexture(GL_TEXTURE0);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_ALWAYS);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void GameEngine::initializeGL() {
+	createWindow();
+	setCallback();
+	loadGLAD();
+	createViewPort();
+	configureOpenGLBuffers();
 }
 
 void GameEngine::run() {
-	BackgroundManager *background = new BackgroundManager();
-	Magician *magician = new Magician("textures/characters/magican/Idle.png");
+	BackgroundManager *background = new BackgroundManager(textureLoader->backgroundTextures);
+	Magician *magician = new Magician(textureLoader->magicianTextures);
 	Projectile *projectile = nullptr;
 	Explosion *explosion = nullptr;
-			
-	//explosion = new Explosion(this->explosionTextureContainer);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -61,7 +103,7 @@ void GameEngine::run() {
 
 		if(this->mouseClicked){
 			if(projectile == nullptr)
-				projectile = new Projectile(mouseClickX, mouseClickY, this->projectileTextureContainer, magician);
+				projectile = new Projectile(mouseClickX, mouseClickY, textureLoader->projectileTextures.textures, magician);
 		}
 
 		background->drawSprite();
@@ -71,7 +113,7 @@ void GameEngine::run() {
 			projectile->move();
 			projectile->drawSprite();
 			if(projectile->isOutOfRange){
-				explosion = new Explosion(projectile->getPosX(), projectile->getPosY(), this->explosionTextureContainer, magician);
+				explosion = new Explosion(projectile->getPosX(), projectile->getPosY(), textureLoader->explosionTextures.textures, magician);
 				projectile = nullptr;
 			}
 		}
@@ -88,6 +130,7 @@ void GameEngine::run() {
 	}
 }
 
+/*
 void GameEngine::loadProjectileTextures() {
     GLuint texture;
     int imgWidth, imgHeight;
@@ -105,6 +148,7 @@ void GameEngine::loadExplosionTextures() {
         explosionTextureContainer.push_back(texture);
     };
 }
+*/
 
 GLuint GameEngine::loadTexture(string filePath, int &imgWidth, int &imgHeight) {
 	GLuint texture;
@@ -130,32 +174,6 @@ GLuint GameEngine::loadTexture(string filePath, int &imgWidth, int &imgHeight) {
 		std::cout << "Failed to load texture" << filePath << std::endl;
 
 	return texture;
-}
-
-void GameEngine::initializeGL() {
-	glfwInit();
-
-    window = glfwCreateWindow(WIDTH, HEIGHT, "JOGO FODA AG", nullptr, nullptr);
-	glfwMakeContextCurrent(window);
-
-	glfwSetKeyCallback(window, key_callback);
-	
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		std::cout << "Failed to initialize GLAD" << std::endl;
-
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	glViewport(0, 0, width, height);
-
-	glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_ALWAYS);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GameEngine::key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)

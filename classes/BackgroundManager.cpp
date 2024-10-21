@@ -1,29 +1,29 @@
 #include "BackgroundManager.h"
 
-BackgroundManager::BackgroundManager() {
+BackgroundManager::BackgroundManager(Texture textures) {
     Background *layer;
-    layer = new Background("textures/background/layers/1.png", 1);
+    layer = new Background(textures.textures[0], textures.width, textures.height, 1);
     skyLayers.push_back(layer);
     allLayers.push_back(layer);
 
-	layer = new Background("textures/background/layers/clouds.png", 2);
+	layer = new Background(textures.textures[1], textures.width, textures.height, 2);
     skyLayers.push_back(layer);
     allLayers.push_back(layer);
 
-	layer = new Background("textures/background/layers/2.png", 3);
+	layer = new Background(textures.textures[2], textures.width, textures.height, 3);
     skyLayers.push_back(layer);
     allLayers.push_back(layer);
 
-	layer = new Background("textures/background/layers/3.png", 4);
+	layer = new Background(textures.textures[3], textures.width, textures.height, 4);
     allLayers.push_back(layer);
 
-	layer = new Background("textures/background/layers/4.png", 5);
+	layer = new Background(textures.textures[4], textures.width, textures.height, 5);
     allLayers.push_back(layer);
 
-	layer = new Background("textures/background/layers/5.png", 6);
+	layer = new Background(textures.textures[5], textures.width, textures.height, 6);
     allLayers.push_back(layer);
 
-    layer = new Background("textures/background/layers/7.png", 7);
+    layer = new Background(textures.textures[6], textures.width, textures.height, 7);
     allLayers.push_back(layer);
 }
 

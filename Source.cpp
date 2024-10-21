@@ -3,6 +3,7 @@
 #include <Background.h>
 #include <Magician.h>
 #include <BackgroundManager.h>
+#include <TextureLoader.h>
 #include <GameEngine.h>
 
 
