@@ -3,8 +3,6 @@
 #include <vector>
 #include <cmath>
 
-#define M_PI 3.14159265358979323846
-
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
@@ -13,6 +11,8 @@ public:
     Projectile(float targetPosX, float targetPosY, vector <GLuint> textures, Magician *magician);
     void drawSprite() override;
     void move();
+    float getPosX() {return this->position.x;};
+    float getPosY() {return this->position.y;};
     bool isOutOfRange;
 private:
     void updateTexture();

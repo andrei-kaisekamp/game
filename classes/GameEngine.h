@@ -19,7 +19,10 @@ private:
   static bool mouseClicked;
 
   vector <GLuint> projectileTextureContainer;
+  vector <GLuint> explosionTextureContainer;
   void loadProjectileTextures();
+  void loadExplosionTextures();
   GLuint loadTexture(string filePath, int &imgWidth, int &imgHeight);
+
 };
 #endif

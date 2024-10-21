@@ -18,6 +18,7 @@
                 "${workspaceFolder}/classes/GameEngine.cpp",
                 "${workspaceFolder}/classes/BackgroundManager.cpp",
                 "${workspaceFolder}/classes/Projectile.cpp",
+                "${workspaceFolder}/classes/Explosion.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I${workspaceFolder}/Dependencies/stb_image",

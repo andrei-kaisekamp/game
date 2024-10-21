@@ -71,8 +71,7 @@ void Projectile::move() {
             position.x += 1 + (static_cast<float>(7)/2);
     }
 
-    if(this->position.x >= 960.0 || this->position.x <= 0.0 ||
-       this->position.y <= groundLevel - 65.0 )
+    if( this->position.y <= groundLevel - 65.0 )
         this->isOutOfRange = true;
 }
 

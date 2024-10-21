@@ -5,6 +5,7 @@
 #include <GameEngine.h>
 #include <BackgroundManager.h>
 #include <Projectile.h>
+#include <Explosion.h>
 
 bool GameEngine::mouseClicked = false;
 double GameEngine::mouseClickX = 0.0;
@@ -14,12 +15,17 @@ double GameEngine::mouseClickY = 0.0;
 void GameEngine::initialize() {
     initializeGL();
 	loadProjectileTextures();
+	loadExplosionTextures();
 }
 
 void GameEngine::run() {
 	BackgroundManager *background = new BackgroundManager();
 	Magician *magician = new Magician("textures/characters/magican/Idle.png");
 	Projectile *projectile = nullptr;
+	Explosion *explosion = nullptr;
+			
+	//explosion = new Explosion(this->explosionTextureContainer);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -64,8 +70,18 @@ void GameEngine::run() {
 		if(projectile != nullptr){
 			projectile->move();
 			projectile->drawSprite();
-			if(projectile->isOutOfRange)
+			if(projectile->isOutOfRange){
+				explosion = new Explosion(projectile->getPosX(), projectile->getPosY(), this->explosionTextureContainer, magician);
 				projectile = nullptr;
+			}
+		}
+
+		
+		if(explosion != nullptr){
+		    explosion->move();
+			explosion->drawSprite();
+			if(explosion->explosionFinished)
+				explosion = nullptr;
 		}
 
 		glfwSwapBuffers(window);
@@ -78,6 +94,15 @@ void GameEngine::loadProjectileTextures() {
     for(int i = 0; i < 31; i++) {
         texture = loadTexture(("textures/projectile/" + to_string(i) + ".png"), imgWidth, imgHeight);
         projectileTextureContainer.push_back(texture);
+    };
+}
+
+void GameEngine::loadExplosionTextures() {
+    GLuint texture;
+    int imgWidth, imgHeight;
+    for(int i = 1; i < 11; i++) {
+        texture = loadTexture(("textures/effects/explosion/" + to_string(i) + ".png"), imgWidth, imgHeight);
+        explosionTextureContainer.push_back(texture);
     };
 }
 
